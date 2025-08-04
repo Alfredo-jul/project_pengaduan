@@ -3,9 +3,11 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use App\Models\NotifikasiModel;
 
 class User extends BaseController
 {
+    // profile
     public function profile()
     {
         if (!session()->get('logged_in')) {
@@ -26,7 +28,7 @@ class User extends BaseController
     //edit profile
     public function edit()
     {
-        $model = new \App\Models\UserModel();
+        $model = new UserModel();
         $user = $model->find(session()->get('id'));
 
         return view('page/edit_profile', ['user' => $user]);
@@ -34,7 +36,11 @@ class User extends BaseController
     //update profile
     public function update()
     {
-        $model = new \App\Models\UserModel();
+        if (!$this->request->is('post')) {
+            return redirect()->to('/profile');
+        }
+
+        $model = new UserModel();
         $id = session()->get('id');
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
@@ -46,14 +52,16 @@ class User extends BaseController
 
         $model->update($id, $data);
 
-        session()->setFlashdata('success', 'Profil berhasil diperbarui.');
-        return redirect()->to('/profile');
+        // session()->setFlashdata('success', 'Profil berhasil diperbarui.');
+        return redirect()->to('/profile')->with('success', 'Profil berhasil diperbarui!');
+
+   
     }
 
-
+    // activiy log
     public function activityLog()
     {
-        $model = new \App\Models\NotifikasiModel();
+        $model = new NotifikasiModel();
 
         $username = session()->get('username');
         $role = session()->get('role');

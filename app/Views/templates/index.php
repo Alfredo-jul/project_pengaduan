@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Pengaduan UNITOMO</title>
+    <title>Pengaduan Kampus</title>
     <link rel="icon" href="<?= base_url('img/logo.svg'); ?>" type="image/svg+xml">
 
     <!-- Custom fonts for this template-->

@@ -10,6 +10,7 @@
     <meta name="author" content="">
 
     <title>Login</title>
+    <link rel="icon" href="<?= base_url('img/logo.svg'); ?>" type="image/svg+xml">
 
     <!-- Custom fonts for this template-->
     <link href="<?= base_url(); ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -101,6 +102,30 @@
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url(); ?>/js/sb-admin-2.min.js"></script>
 
+    <!-- Auto-Close Script -->
+    <script>
+        setTimeout(function() {
+            $(".alert").alert('close');
+        }, 5000); // 5 detik
+    </script>
 </body>
+
+<?php if (session()->getFlashdata('success')): ?>
+    <div class="alert alert-success alert-dismissible fade show position-fixed text-center mx-auto" style="top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; min-width: 300px; max-width: 500px;" role="alert">
+        <?= session()->getFlashdata('success') ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show position-fixed text-center mx-auto" style="top: 70px; left: 50%; transform: translateX(-50%); z-index: 9999; min-width: 300px; max-width: 500px;" role="alert">
+        <?= session()->getFlashdata('error') ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
 
 </html>

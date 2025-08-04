@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PengaduanModel;
+use App\Models\NotifikasiModel;
 
 class Pengaduan extends BaseController
 {
@@ -15,22 +16,67 @@ class Pengaduan extends BaseController
 
     public function pengajuan()
    {
+
         $model = new PengaduanModel();
         $session = session();
         $role = $session->get('role');
         $username = $session->get('username');
-        $data['data'] = $model->findAll(); // Ini sudah otomatis menyertakan 'id' jika modelnya benar
 
+        $bulan = $this->request->getGet('bulan');
+        $tahun = $this->request->getGet('tahun');
+
+        // Mulai query builder
         if ($role == 'admin') {
-            // Admin melihat semua pengajuan
-            $data['data'] = $model->orderBy('created_at', 'DESC')->findAll();
+            $model->orderBy('created_at', 'DESC');
         } else {
-            // User hanya melihat pengaduan miliknya (berdasarkan username/nama yang tersimpan)
-            $data['data'] = $model->where('username', $username)->orderBy('created_at', 'DESC')->findAll();
+            $model->where('username', $username)
+                ->orderBy('created_at', 'DESC');
         }
 
-        return view('page/tabel', $data); // tampilkan ke tabel
-   }
+        // Filter bulan & tahun
+        if ($bulan) {
+            $model->where('MONTH(created_at)', $bulan);
+        }
+        if ($tahun) {
+            $model->where('YEAR(created_at)', $tahun);
+        }
+
+        $data['data'] = $model->findAll();
+
+        return view('page/tabel', $data);
+
+//         $model = new PengaduanModel();
+//         $session = session();
+//         $role = $session->get('role');
+//         $username = $session->get('username');
+//         $data['data'] = $model->findAll(); // Ini sudah otomatis menyertakan 'id' jika modelnya benar
+
+//         $bulan = $this->request->getGet('bulan');
+//         $tahun = $this->request->getGet('tahun');
+
+
+//         if ($bulan && $tahun) {
+//             $model->where('MONTH(created_at)', $bulan)
+//                 ->where('YEAR(created_at)', $tahun);
+//         } elseif ($bulan) {
+//             $model->where('MONTH(created_at)', $bulan);
+//         } elseif ($tahun) {
+//             $model->where('YEAR(created_at)', $tahun);
+//         }
+
+//         $data = $model->findAll();
+
+//         if ($role == 'admin') {
+//             // Admin melihat semua pengajuan
+//             $data['data'] = $model->orderBy('created_at', 'DESC')->findAll();
+//         } else {
+//             // User hanya melihat pengaduan miliknya (berdasarkan username/nama yang tersimpan)
+//             $data['data'] = $model->where('username', $username)->orderBy('created_at', 'DESC')->findAll();
+//         }
+
+//         return view('page/tabel', $data); // tampilkan ke tabel
+//    }
+    }
 
 
 
@@ -64,7 +110,7 @@ class Pengaduan extends BaseController
         $model->insert($data);
 
         // ✅ Tambahkan notifikasi ke admin
-        $notifModel = new \App\Models\NotifikasiModel();
+        $notifModel = new NotifikasiModel();
         $notifModel->save([
             'username' => $username,
             'role'     => 'admin',
@@ -85,7 +131,7 @@ class Pengaduan extends BaseController
             return redirect()->back()->with('error', 'Akses ditolak');
         }
 
-        $model = new \App\Models\PengaduanModel();
+        $model = new PengaduanModel();
         $data['pengaduan'] = $model->find($id);
         return view('page/edit-status', $data);
     }
@@ -106,14 +152,14 @@ class Pengaduan extends BaseController
             return redirect()->back()->with('error', 'Status tidak valid');
         }
 
-        $model = new \App\Models\PengaduanModel();
+        $model = new PengaduanModel();
         $model->update($id, ['status' => $statusBaru]);
 
         // Ambil data pengaduan untuk mengetahui user_id / nama pengirim
         $pengaduan = $model->find($id);
 
         // Simpan notifikasi untuk user yang bersangkutan
-        $notifModel = new \App\Models\NotifikasiModel();
+        $notifModel = new NotifikasiModel();
         $notifModel->save([
             'username' => $pengaduan['username'], // pastikan field ini ada di tabel pengaduan
             'role' => $pengaduan['role'] ?? 'mahasiswa', // jika role disimpan, gunakan ini
@@ -138,7 +184,7 @@ class Pengaduan extends BaseController
             return redirect()->back()->with('error', 'Akses ditolak');
         }
 
-        $model = new \App\Models\PengaduanModel();
+        $model = new PengaduanModel();
         // $data['pengaduan'] = $model->find($id);
         $pengaduan = $model->find($id);
 
@@ -165,7 +211,7 @@ class Pengaduan extends BaseController
             return redirect()->back()->with('error', 'Akses ditolak');
         }
 
-        $model = new \App\Models\PengaduanModel();
+        $model = new PengaduanModel();
         // $data['pengaduan'] = $model->find($id);
         $pengaduan = $model->find($id);
 
@@ -210,7 +256,7 @@ class Pengaduan extends BaseController
     // Detail pengaduan
     public function detail($id)
     {
-        $model = new \App\Models\PengaduanModel();
+        $model = new PengaduanModel();
         $pengaduan = $model->find($id);
 
         if (!$pengaduan) {
@@ -223,7 +269,7 @@ class Pengaduan extends BaseController
     // Hapus pengaduan
     public function hapus($id)
     {
-        $model = new \App\Models\PengaduanModel();
+        $model = new PengaduanModel();
         $pengaduan = $model->find($id);
 
         if (!$pengaduan) {

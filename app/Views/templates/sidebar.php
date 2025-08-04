@@ -79,7 +79,7 @@
             </li> -->
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <!-- <hr class="sidebar-divider"> -->
 
             <!-- Heading -->
             <!-- <div class="sidebar-heading">
@@ -109,11 +109,11 @@
             </li> -->
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('/login'); ?>">
                     <i class="fas fa-user-alt"></i>
                     <span>Login</span></a>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Tables -->
             <!-- <li class="nav-item">

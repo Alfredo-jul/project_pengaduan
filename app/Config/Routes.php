@@ -23,7 +23,7 @@ use CodeIgniter\Router\RouteCollection;
   $routes->get('/forgot', 'Login::index3');
   $routes->get('/profile', 'User::profile');
   $routes->get('/profile/edit', 'User::edit');      // Form edit
-$routes->post('/profile/update', 'User::update'); // Proses update
+  $routes->post('/profile/update', 'User::update'); // Proses update
 
   //route pengaduan
   $routes->get('/pengaduan/tambah', 'Pengaduan::tambah');

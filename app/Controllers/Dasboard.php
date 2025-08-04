@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\PengaduanModel;
+
+
 class Dasboard extends BaseController
 {
     public function indexAdmin()
@@ -33,7 +36,7 @@ class Dasboard extends BaseController
 
     public function dashboard()
     {
-        $model = new \App\Models\PengaduanModel();
+        $model = new PengaduanModel();
         $role = session()->get('role');
         $nama = session()->get('nama'); // Pastikan 'nama' tersimpan di session
         $username = session()->get('username'); 

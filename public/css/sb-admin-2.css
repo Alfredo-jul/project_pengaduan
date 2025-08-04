@@ -2419,6 +2419,7 @@ textarea.form-control.is-invalid {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
+  justify-content: space-evenly;
 }
 
 .form-inline .form-check {
@@ -10993,6 +10994,7 @@ a:focus {
   display: flex;
   justify-content: space-between;
   margin: 15px 0;
+  text-align: right;
 }
 
 .search-wrapper {

@@ -3,25 +3,33 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use App\Models\NotifikasiModel;
+
 
 class Login extends BaseController
 {
+    // halaman login
     public function index1()
     {
        return view('page/login');
     }
 
+    // halaman register
     public function index2()
     {
 
        return view('page/register');
     }
 
+
+    // halaman forgot-password
     public function index3()
     {
        return view('page/forgot-password');
     }
 
+
+    // autentikasi login
     public function auth()
     {
         $session = session();
@@ -61,14 +69,16 @@ class Login extends BaseController
 
             } else {
                 $session->setFlashdata('error', 'Password salah');
-                return redirect()->to('/');
+                return redirect()->to('/login');
             }
         } else {
             $session->setFlashdata('error', 'Username tidak ditemukan');
-            return redirect()->to('/');
+            return redirect()->to('/login');
         }
     }
 
+
+    // resister
     public function register()
     {
         $model = new UserModel();
@@ -108,7 +118,7 @@ class Login extends BaseController
         $model->insert($data);
 
             // Tambah notifikasi untuk admin
-            $notifModel = new \App\Models\NotifikasiModel();
+            $notifModel = new NotifikasiModel();
             $notifModel->save([
                 'username' => $data['username'],
                 'role'     => 'admin',
