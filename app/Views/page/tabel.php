@@ -6,50 +6,53 @@
 <?= $this->section('content')?>
 
 <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Pengaduan</h6>
-                        </div>
-                        <div class="card-body">
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Pengaduan</h6>
+    </div>
+    
+    <div class="card-body">
+
+        <div class="tools-bar mb-3">
+            <div>
+                <?php
+                    if ($role === 'mahasiswa' || $role === 'dosen'):
+                ?>
+                    <a href="<?= base_url('/pengaduan/tambah'); ?>">
+                        <button class="btn btn-primary">TAMBAH</button>
+                    </a>
+                <?php endif; ?>
+            </div>
+        </div>
                           
 
-                            <form method="get" class="form-inline mb-3">
-                                <label for="bulan" class="mr-2">Filter Bulan:</label>
-                                <select name="bulan" id="bulan" class="form-control mr-3">
-                                    <option value="">Semua Bulan</option>
-                                    <?php for ($i = 1; $i <= 12; $i++): ?>
-                                        <?php $selected = ($i == (int)($_GET['bulan'] ?? '')) ? 'selected' : ''; ?>
-                                        <option value="<?= $i ?>" <?= $selected ?>><?= date('F', mktime(0, 0, 0, $i, 10)) ?></option>
-                                    <?php endfor; ?>
-                                </select>
+        <form method="get" class="form-inline mb-3">
+            <label for="bulan" class="mr-2">Filter Bulan:</label>
+            <select name="bulan" id="bulan" class="form-control mr-3">
 
-                                <label for="tahun" class="mr-2">Tahun:</label>
-                                <select name="tahun" id="tahun" class="form-control mr-3">
-                                    <option value="">Semua Tahun</option>
-                                    <?php
-                                        $currentYear = date('Y');
-                                        for ($y = $currentYear; $y >= 2020; $y--): // Ganti 2020 sesuai kebutuhan
-                                            $selected = ($y == ($_GET['tahun'] ?? '')) ? 'selected' : '';
-                                    ?>
-                                        <option value="<?= $y ?>" <?= $selected ?>><?= $y ?></option>
-                                    <?php endfor; ?>
-                                </select>
+                    <option value="">Semua Bulan</option>
+                <?php for ($i = 1; $i <= 12; $i++): ?>
+                <?php $selected = ($i == (int)($_GET['bulan'] ?? '')) ? 'selected' : ''; ?>
+                    <option value="<?= $i ?>" <?= $selected ?>><?= date('F', mktime(0, 0, 0, $i, 10)) ?></option>
+                <?php endfor; ?>
 
-                                <button type="submit" class="btn btn-primary">Terapkan</button>
-                                
-                                
-                                    <div>
-                                        <?php
-                                            if ($role === 'mahasiswa' || $role === 'dosen'):
-                                        ?>
-                                            <a href="<?= base_url('/pengaduan/tambah'); ?>">
-                                                <button class="btn btn-primary">TAMBAH</button>
-                                            </a>
-                                        <?php endif; ?>
-                                    </div>
-                               
+            </select>
 
-                            </form>
+            <label for="tahun" class="mr-2"> Filter Tahun:</label>
+                <select name="tahun" id="tahun" class="form-control mr-3">
+                    <option value="">Semua Tahun</option>
+                        <?php
+                            $currentYear = date('Y');
+                                for ($y = $currentYear; $y >= 2020; $y--): // Ganti 2020 sesuai kebutuhan
+                                    $selected = ($y == ($_GET['tahun'] ?? '')) ? 'selected' : '';
+                        ?>
+                    <option value="<?= $y ?>" <?= $selected ?>><?= $y ?></option>
+                        <?php endfor; ?>
+                </select>
+
+                <button type="submit" class="btn btn-primary">Terapkan</button>
+                        
+        </form>
 
                           
                             <div class="table-responsive">
@@ -147,7 +150,7 @@
                                 
 
                             </div>
-                        </div>
-                    </div>
+    </div>
+</div>
 
 <?= $this->endSection()?> 
